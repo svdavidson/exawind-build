@@ -14,7 +14,7 @@ usage_exit() {
     if [ $# -gt 0 ]; then
         echo $@
     fi
-    echo "USAGE: $program [--pecan | --pine | --delete]"
+    echo "USAGE: $program [--pecan | --pine | --kestrel | --delete]"
     exit 1
 }
 
@@ -27,12 +27,15 @@ while [ $# -ge 1 ]; do
     case "$1" in
     --pecan)   build_type="pecan";;
     --pine)    build_type="pine";;
+    --kestrel) build_type="kestrel";;
     --delete)  delete=1;;
     --help)    usage_exit;;
     *)         usage_exit "Unknown option - $1";;
     esac
     shift
 done
+
+export SPACK_PYTHON=python3
 
 case $build_type in
 
@@ -46,6 +49,12 @@ case $build_type in
     pine)
         [ "$hostname" != "pine-1" ] && error_exit "Please build on pine-1"
         BUILD_DIR=/apps/exawind/2024-06/genoa_x86_64/amr-wind-exawind-manager
+        ;;
+
+    kestrel)
+        [ "$hostname" != "kl1" ] && error_exit "Please build on kl1"
+        BUILD_DIR=/scratch/$USER/amr-wind-exawind-manager
+	export SPACK_PYTHON=python3.10
         ;;
 
     *)
@@ -83,7 +92,7 @@ if [ ! -d exawind-cases ]; then
 fi
 
 # build
-export SPACK_PYTHON=python3
+#export SPACK_PYTHON=python3
 cd exawind-manager
 source shortcut.sh
 
