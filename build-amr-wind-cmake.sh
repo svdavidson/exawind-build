@@ -27,6 +27,22 @@ if [ "$1" = "--cuda" ]; then
 	#cmake -B amr-wind-build -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DAMR_WIND_ENABLE_TINY_PROFILE:BOOL=ON -DCMAKE_CXX_COMPILER:STRING=CC -DCMAKE_C_COMPILER:STRING=cc -DAMR_WIND_ENABLE_CUDA:BOOL=ON -DCMAKE_CUDA_ARCHITECTURES=90 -DAMR_WIND_ENABLE_MPI:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=Release -DAMR_WIND_ENABLE_TESTS:BOOL=ON -DAMReX_DIFFERENT_COMPILER=ON amr-wind
 	#cmake --build amr-wind-build --parallel 24
 
+else
+
+        # from Harish script
+        #module load PrgEnv-intel/8.5.0
+        #module load libfabric/1.15.2.0
+        #module load cray-libsci/23.12.5
+        #module load intel/2023.2.0
+        #module load craype-network-ofi
+        #module load craype-x86-spr
+        #module load cray-mpich/8.1.28
+        #module load netcdf-c/4.9.2-cray-mpich-intel
+        #export LD_LIBRARY_PATH=/projects/hpesupport/cray-mpich-stall/libs_mpich_nrel_intel:$LD_LIBRARY_PATH
+        #export MPICH_OFI_CQ_STALL=1
+        #export MPICH_OFI_CQ_STALL_USECS=16
+        #export HDF5_USE_FILE_LOCKING=FALSE
+
 fi
 
 echo BUILD_DIR is $BUILD_DIR
