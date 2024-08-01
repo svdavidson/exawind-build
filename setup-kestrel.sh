@@ -4,5 +4,5 @@ export SPACK_PYTHON=python3.10
 export EXAWIND_MANAGER=$BUILD_DIR/exawind-manager
 source ${EXAWIND_MANAGER}/start.sh && spack-start
 spack env activate exawind-kestrel
-spack load exawind amr-wind nalu-wind
+spack load amr-wind nalu-wind
 
