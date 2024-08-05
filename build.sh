@@ -42,8 +42,6 @@ case $build_type in
     pecan)
         [ "$hostname" != "pecan-1" ] && error_exit "Please build on pecan-1"
         BUILD_DIR=/apps/exawind/2024-06/x86_64/amr-wind-exawind-manager
-        module load anaconda3/2022.10
-        module load gcc/8.2.0
         ;;
 
     pine)
@@ -54,7 +52,6 @@ case $build_type in
     kestrel)
         [ "$hostname" != "kl1" ] && error_exit "Please build on kl1"
         BUILD_DIR=/scratch/$USER/amr-wind-exawind-manager
-	export SPACK_PYTHON=python3.10
         ;;
 
     *)
@@ -73,6 +70,25 @@ if [ $delete -eq 1 ]; then
     rm -rf exawind-cases exawind-manager
     exit 0
 fi
+
+# runtime environment
+case $build_type in
+
+    pecan)
+        module load anaconda3/2022.10
+        module load gcc/8.2.0
+        ;;
+
+    pine)
+        ;;
+
+    kestrel)
+	export SPACK_PYTHON=python3.10
+        ;;
+
+    *)  ;;
+
+esac
 
 # create build directory
 mkdir -p $BUILD_DIR >& /dev/null
