@@ -84,6 +84,18 @@ case $build_type in
 
     kestrel)
 	export SPACK_PYTHON=python3.10
+        module load PrgEnv-intel/8.5.0
+        module load libfabric/1.15.2.0
+        module load cray-libsci/23.12.5
+        module load intel/2023.2.0
+        module load craype-network-ofi
+        module load craype-x86-spr
+        module load cray-mpich/8.1.28
+        module load netcdf-c/4.9.2-cray-mpich-intel
+        export LD_LIBRARY_PATH=/projects/hpesupport/cray-mpich-stall/libs_mpich_nrel_intel:$LD_LIBRARY_PATH
+        export MPICH_OFI_CQ_STALL=1
+        export MPICH_OFI_CQ_STALL_USECS=16
+        export HDF5_USE_FILE_LOCKING=FALSE
         ;;
 
     *)  ;;
