@@ -14,7 +14,7 @@ usage_exit() {
     if [ $# -gt 0 ]; then
         echo $@
     fi
-    echo "USAGE: $program [--pecan | --pine | --kestrel | --delete]"
+    echo "USAGE: $program [--pecan | --pine | --kestrel | --delete --master]"
     exit 1
 }
 
@@ -22,6 +22,7 @@ hostname=$(hostname --short)
 original_dir=$(pwd)
 program=$(basename $0)
 delete=0
+master=0
 build_type=unknown
 while [ $# -ge 1 ]; do
     case "$1" in
@@ -29,6 +30,7 @@ while [ $# -ge 1 ]; do
     --pine)    build_type="pine";;
     --kestrel) build_type="kestrel";;
     --delete)  delete=1;;
+    --master)  master=1;;
     --help)    usage_exit;;
     *)         usage_exit "Unknown option - $1";;
     esac
@@ -37,21 +39,28 @@ done
 
 export SPACK_PYTHON=python3
 
+
+if [ $master -eq 1 ]; then
+	BUILD_BASE=master-amr-wind-exawind-manager
+else
+	BUILD_BASE=amr-wind-exawind-manager
+fi
+
 case $build_type in
 
     pecan)
         [ "$hostname" != "pecan-1" ] && error_exit "Please build on pecan-1"
-        BUILD_DIR=/apps/exawind/2024-06/x86_64/amr-wind-exawind-manager
+        BUILD_DIR=/apps/exawind/2024-06/x86_64/$BUILD_BASE
         ;;
 
     pine)
         [ "$hostname" != "pine-1" ] && error_exit "Please build on pine-1"
-        BUILD_DIR=/apps/exawind/2024-06/genoa_x86_64/amr-wind-exawind-manager
+        BUILD_DIR=/apps/exawind/2024-06/genoa_x86_64/$BUILD_BASE
         ;;
 
     kestrel)
         [ "$hostname" != "kl1" ] && error_exit "Please build on kl1"
-        BUILD_DIR=/scratch/$USER/amr-wind-exawind-manager
+	BUILD_DIR=/scratch/$USER/$BUILD_BASE
         ;;
 
     *)
@@ -108,9 +117,11 @@ cd $BUILD_DIR || error_exit "Unable to change directory to $BUILD_DIR"
 
 # install Exawind Manager
 if [ ! -d exawind-manager ]; then
-	#git clone --recursive https://github.com/Exawind/exawind-manager.git exawind-manager
-        #git clone --recursive -b buildtest https://github.com/svdavidson/exawind-manager-buildtest.git exawind-manager
-        git clone --recursive https://github.com/svdavidson/exawind-manager-buildtest.git exawind-manager
+	if [ $master -eq 1 ]; then
+		git clone --recursive https://github.com/Exawind/exawind-manager.git exawind-manager
+	else
+		git clone --recursive https://github.com/svdavidson/exawind-manager-buildtest.git exawind-manager
+	fi
 fi
 
 # install Exawind Test Cases
