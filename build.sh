@@ -41,9 +41,9 @@ export SPACK_PYTHON=python3
 
 
 if [ $main -eq 1 ]; then
-	BUILD_BASE=exawind-manager-main
+	BUILD_BASE=exawind-main
 else
-	BUILD_BASE=exawind-manager
+	BUILD_BASE=exawind-terrain
 fi
 
 case $build_type in
