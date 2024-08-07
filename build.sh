@@ -23,6 +23,7 @@ original_dir=$(pwd)
 program=$(basename $0)
 delete=0
 main=0
+pause=0
 build_type=unknown
 while [ $# -ge 1 ]; do
     case "$1" in
@@ -31,6 +32,7 @@ while [ $# -ge 1 ]; do
     --kestrel) build_type="kestrel";;
     --delete)  delete=1;;
     --main)    main=1;;
+    --pause)   pause=1;;
     --help)    usage_exit;;
     *)         usage_exit "Unknown option - $1";;
     esac

@@ -1,5 +1,5 @@
 
-BUILD_DIR=/scratch/$USER/2024-08/x86_64/exawind-manager-main
+BUILD_DIR=/scratch/$USER/2024-08/x86_64/exawind-main
 export SPACK_PYTHON=python3.10
 export EXAWIND_MANAGER=$BUILD_DIR/exawind-manager
 source ${EXAWIND_MANAGER}/start.sh && spack-start
